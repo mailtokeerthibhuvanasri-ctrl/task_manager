@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register — TaskFlow</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<div class="page">
+  <nav>
+    <a href="/" class="nav-logo">Task<span>Flow</span></a>
+    <div class="nav-links">
+      <a href="/login" class="btn btn-ghost btn-sm">Sign In</a>
+    </div>
+  </nav>
+
+  <div class="auth-container">
+    <div class="auth-card">
+      <h2>Create Account</h2>
+      <p class="subtitle">Join TaskFlow and start organizing your work</p>
+
+      <div class="alert alert-error" id="errorMsg"></div>
+      <div class="alert alert-success" id="successMsg"></div>
+
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="username" placeholder="e.g. john_doe" autocomplete="username">
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="email" placeholder="you@example.com" autocomplete="email">
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="password" placeholder="Min 6 characters" autocomplete="new-password">
+      </div>
+
+      <button class="btn btn-primary btn-block" id="registerBtn" onclick="doRegister()">
+        Create Account
+      </button>
+
+      <div class="form-footer">
+        Already have an account? <a href="/login">Sign in</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+async function doRegister() {
+  const btn = document.getElementById('registerBtn');
+  const errEl = document.getElementById('errorMsg');
+  const okEl = document.getElementById('successMsg');
+  const username = document.getElementById('username').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+
+  errEl.className = 'alert alert-error';
+  okEl.className = 'alert alert-success';
+
+  if (!username || !email || !password) {
+    errEl.textContent = '⚠ Please fill in all fields.';
+    errEl.className = 'alert alert-error show';
+    return;
+  }
+  if (password.length < 6) {
+    errEl.textContent = '⚠ Password must be at least 6 characters.';
+    errEl.className = 'alert alert-error show';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Creating...';
+
+  let res, data;
+  try {
+    res = await fetch('/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, email, password })
+    });
+  } catch (e) {
+    errEl.textContent = '⚠ Network error: ' + e.message;
+    errEl.className = 'alert alert-error show';
+    btn.disabled = false;
+    btn.innerHTML = 'Create Account';
+    return;
+  }
+
+  try {
+    data = await res.json();
+  } catch (e) {
+    errEl.textContent = '⚠ Server error (status ' + res.status + '). Check terminal for details.';
+    errEl.className = 'alert alert-error show';
+    btn.disabled = false;
+    btn.innerHTML = 'Create Account';
+    return;
+  }
+
+  if (!res.ok) {
+    errEl.textContent = '⚠ ' + (data.detail || 'Registration failed. Status: ' + res.status);
+    errEl.className = 'alert alert-error show';
+    btn.disabled = false;
+    btn.innerHTML = 'Create Account';
+    return;
+  }
+
+  okEl.textContent = '✓ Account created! Redirecting to login...';
+  okEl.className = 'alert alert-success show';
+  setTimeout(() => window.location.href = '/login', 1500);
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Enter') doRegister(); });
+</script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaskFlow — Task Manager</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <style>
+    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; max-width: 900px; margin: 0 auto; padding: 0 2rem 5rem; }
+    .feature-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.6rem; transition: all 0.25s; }
+    .feature-card:hover { border-color: rgba(124,106,247,0.4); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+    .feature-icon { font-size: 1.8rem; margin-bottom: 0.8rem; }
+    .feature-card h3 { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .feature-card p { color: var(--text2); font-size: 0.85rem; line-height: 1.6; }
+    .divider { width: 1px; height: 20px; background: var(--border); }
+  </style>
+</head>
+<body>
+<div class="page">
+  <nav>
+    <a href="/" class="nav-logo">Task<span>Flow</span></a>
+    <div class="nav-links">
+      <a href="/login" class="btn btn-ghost btn-sm">Sign In</a>
+      <div class="divider"></div>
+      <a href="/register" class="btn btn-primary btn-sm">Get Started</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">✦ Secure · Fast · Beautiful</div>
+      <h1>Manage Tasks<br>with <em>Clarity</em></h1>
+      <p>A sleek task manager with secure JWT authentication.<br>Create, organize, and complete your tasks effortlessly.</p>
+      <div class="hero-actions">
+        <a href="/register" class="btn btn-primary">Start for Free →</a>
+        <a href="/login" class="btn btn-ghost">Sign In</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="features">
+    <div class="feature-card">
+      <div class="feature-icon">🔐</div>
+      <h3>Secure Auth</h3>
+      <p>JWT Bearer token authentication keeps your tasks private and your session safe.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <h3>Fast API</h3>
+      <p>Built on FastAPI — blazing fast Python backend with automatic OpenAPI docs.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">✓</div>
+      <h3>Full CRUD</h3>
+      <p>Create, view, update priority, mark complete, and delete tasks with ease.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🎯</div>
+      <h3>Priorities</h3>
+      <p>Tag tasks as High, Medium, or Low priority to focus on what matters most.</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>
